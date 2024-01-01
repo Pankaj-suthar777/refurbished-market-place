@@ -18,6 +18,7 @@ root.render(
           },
           token: {
             borderRadius: "2px",
+            colorPrimary: "#405138",
           },
         },
       }}
