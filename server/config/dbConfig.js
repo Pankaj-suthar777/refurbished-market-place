@@ -1,3 +1,5 @@
+// connect or project to mongoDB database
+
 const mongoose = require("mongoose");
 
 mongoose.connect(process.env.mongo_url);

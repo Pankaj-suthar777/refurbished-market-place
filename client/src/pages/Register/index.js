@@ -15,6 +15,7 @@ function Register() {
   const onFinish = async (values) => {
     try {
       const response = await RegisterUser(values);
+
       if (response.success) {
         message.success(response.message);
       } else {

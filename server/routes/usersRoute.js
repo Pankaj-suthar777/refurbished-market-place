@@ -13,7 +13,7 @@ router.post("/register", async (req, res) => {
     }
 
     //hash password
-    const salt = await bcrypt.getSalt(12);
+    const salt = await bcrypt.genSalt(12);
     const hashPassword = await bcrypt.hash(req.body.password, salt);
     req.body.password = hashPassword;
 
@@ -34,7 +34,7 @@ router.post("/register", async (req, res) => {
 
 //user login
 
-router.post("login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     //check if user exists
     const user = await User.findOne({ email: req.body.email });
@@ -43,13 +43,18 @@ router.post("login", async (req, res) => {
     }
 
     //compare password
-    const validPassword = bcrypt.compare(req.body.password, user.password);
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
     if (!validPassword) {
       throw new Error("Invalid password");
     }
 
     // create and assign token
-    const token = jwt.sign({ userId: user._id }, process.env.jwt_secret);
+    const token = jwt.sign({ userId: user._id }, process.env.jwt_secret, {
+      expiresIn: "2d",
+    });
 
     //send response
     res.send({
