@@ -3,10 +3,15 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedPage from "./components/ProtectedPage";
+import Spinner from "./components/Spinner";
+import { useSelector } from "react-redux";
+import Profile from "./pages/Profile";
 
 function App() {
+  const { loading } = useSelector((state) => state.loaders);
   return (
     <div>
+      {loading && <Spinner></Spinner>}
       <BrowserRouter>
         <Routes>
           <Route
@@ -14,6 +19,14 @@ function App() {
             element={
               <ProtectedPage>
                 <Home></Home>
+              </ProtectedPage>
+            }
+          ></Route>
+          <Route
+            path="/profile"
+            element={
+              <ProtectedPage>
+                <Profile></Profile>
               </ProtectedPage>
             }
           ></Route>
