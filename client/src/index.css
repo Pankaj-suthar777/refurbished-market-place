@@ -32,3 +32,7 @@ button {
   height: 45px !important;
   box-shadow: none !important;
 }
+table {
+  border: 1px solid #a1a1a1 !important;
+  border-radius: 5px !important;
+}

@@ -5,7 +5,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 
 import { ConfigProvider } from "antd";
-import store from "./redux/stone";
+import store from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
