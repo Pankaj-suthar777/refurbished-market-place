@@ -1,8 +1,9 @@
 import { Checkbox, Col, Form, Input, Modal, Row, Tabs, message } from "antd";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AddProduct, EditProduct } from "../../../apicalls/product";
 import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../../../redux/loadersSlice";
+import Images from "./Images";
 const additionalThings = [
   {
     label: "Bill Available",
@@ -34,6 +35,7 @@ function ProductsForm({
   selectedProduct,
   getData,
 }) {
+  const [selectedTab, setSelectedTab] = useState("1");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.users);
   const formRef = useRef(null);
@@ -91,12 +93,17 @@ function ProductsForm({
       onOk={() => {
         formRef.current.submit();
       }}
+      {...(selectedTab === "2" && { footer: false })}
     >
       <div>
         <p className="text-xl text-center font-semibold text-primary">
           {selectedProduct ? "Edit Product" : "Add Product"}
         </p>
-        <Tabs defaultActiveKey="1">
+        <Tabs
+          defaultActiveKey="1"
+          activeKey={selectedTab}
+          onChange={(key) => setSelectedTab(key)}
+        >
           <Tabs.TabPane key="1" tab="General">
             <Form layout="vertical" onFinish={onFinish} ref={formRef}>
               <Form.Item label="Name" name="name" rules={rules}>
@@ -132,13 +139,14 @@ function ProductsForm({
                   </Form.Item>
                 </Col>
               </Row>
-              <div className="flex gap-10">
+              <div className="flex flex-wrap">
                 {additionalThings.map((item) => {
                   return (
                     <Form.Item
                       name={item.name}
                       key={item.name}
-                      valuePropName="checked" // Use "checked" for Checkbox
+                      valuePropName="checked"
+                      className="mr-2"
                     >
                       <Checkbox>{item.name}</Checkbox>
                     </Form.Item>
@@ -147,8 +155,13 @@ function ProductsForm({
               </div>
             </Form>
           </Tabs.TabPane>
-          <Tabs.TabPane key="2" tab="Images">
-            <h1>Images</h1>
+          <Tabs.TabPane key="2" tab="Images" disabled={!selectedProduct}>
+            <Images
+              selectedProduct={selectedProduct}
+              showProductForm={showProductForm}
+              getData={getData}
+              setShowProductForm={setShowProductForm}
+            ></Images>
           </Tabs.TabPane>
         </Tabs>
       </div>
