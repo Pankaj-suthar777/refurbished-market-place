@@ -14,9 +14,12 @@ export const AddProduct = async (payload) => {
 };
 
 //get all products
-export const GetProducts = async () => {
+export const GetProducts = async (payload) => {
   try {
-    const response = await axiosInstance.get("/api/users/get-products");
+    const response = await axiosInstance.post(
+      "/api/users/get-products",
+      payload
+    );
     return response.data;
   } catch (error) {
     return error.messgae;
@@ -54,6 +57,19 @@ export const UploadProductImage = async (payload) => {
     const response = await axiosInstance.post(
       `/api/users/upload-image-to-product`,
       payload
+    );
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+// update product status
+export const UpdateProductStatus = async (id, status) => {
+  try {
+    const response = await axiosInstance.put(
+      `/api/users/update-product-status/${id}`,
+      { status }
     );
     return response.data;
   } catch (error) {

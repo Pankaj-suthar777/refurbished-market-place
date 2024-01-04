@@ -1,7 +1,7 @@
 import { Button, Table, message } from "antd";
 import React, { useEffect, useState } from "react";
 import ProductsForm from "./ProductsForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../../../redux/loadersSlice";
 import { DeleteProduct, GetProducts } from "../../../apicalls/product";
 import moment from "moment";
@@ -11,6 +11,7 @@ function Products() {
   const [products, setProduct] = useState();
   const [showProductForm, setShowProductForm] = useState(false);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.users);
 
   async function deleteProduct(id) {
     try {
@@ -84,7 +85,9 @@ function Products() {
   async function getData() {
     try {
       dispatch(SetLoader(true));
-      const response = await GetProducts();
+      const response = await GetProducts({
+        seller: user._id,
+      });
       dispatch(SetLoader(false));
       if (response.success) {
         setProduct(response.products);
