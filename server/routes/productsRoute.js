@@ -34,7 +34,7 @@ router.post("/get-products", async (req, res) => {
       .sort({ createdAt: -1 });
     res.send({
       success: true,
-      products,
+      data: products,
     });
   } catch (error) {
     res.send({

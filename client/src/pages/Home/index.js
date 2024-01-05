@@ -1,7 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { SetLoader } from "../../redux/loadersSlice";
+import { message } from "antd";
+import { GetProducts } from "../../apicalls/product";
+import Divider from "../../components/Divider";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-  return <div>Home</div>;
+  const naviagte = useNavigate();
+  const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
+  const [filters, setFilters] = useState({ status: "approved" });
+  const { user } = useSelector((state) => state.users);
+
+  async function getData() {
+    try {
+      dispatch(SetLoader(true));
+      const response = await GetProducts({ filters });
+      dispatch(SetLoader(false));
+      if (response.success) {
+        setProducts(response.data);
+      }
+    } catch (error) {
+      dispatch(SetLoader(false));
+      message.error(error.message);
+    }
+  }
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <div>
+      <div className="grid gap-5 grid-cols-4">
+        {products?.map((product) => {
+          return (
+            <div
+              className="border border-gray-300 rounded border-solid flex flex-col gap-5 pb-2 cursor-pointer"
+              onClick={() => naviagte(`/product/${product._id}`)}
+            >
+              <img
+                src={product.images[0]}
+                alt="img"
+                className="w-full h-40 object-cover"
+              ></img>
+              <div className="px-2 flex flex-col gap-1">
+                <h1 className="text-lg font-semibold">{product.name}</h1>
+                <p className="text-sm">{product.description}</p>
+                <Divider></Divider>
+                <span className="text-xl font-semibold text-green-700">
+                  &#8377;{product.price}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 export default Home;

@@ -27,61 +27,6 @@ function Products() {
     }
   }
 
-  // const columns = [
-  //   {
-  //     title: "Name",
-  //     dataIndex: "name",
-  //   },
-  //   {
-  //     title: "Description",
-  //     dataIndex: "description",
-  //   },
-  //   {
-  //     title: "Price",
-  //     dataIndex: "price",
-  //   },
-  //   {
-  //     title: "Category",
-  //     dataIndex: "category",
-  //   },
-  //   {
-  //     title: "Age",
-  //     dataIndex: "age",
-  //   },
-  //   {
-  //     title: "Status",
-  //     dataIndex: "status",
-  //   },
-  //   {
-  //     title: "Added On",
-  //     dataIndex: "createdAt",
-  //     render: (text, record) =>
-  //       moment(record.createAt).format("DD-MM-YY hh:mm A"),
-  //   },
-
-  //   {
-  //     title: "Action",
-  //     dataIndex: "action",
-  //     render: (text, record) => {
-  //       return (
-  //         <div className="flex gap-5">
-  //           <i
-  //             className="ri-delete-bin-line"
-  //             onClick={() => deleteProduct(record._id)}
-  //           ></i>
-  //           <i
-  //             class="ri-pencil-line"
-  //             onClick={() => {
-  //               setSelectedProduct(record);
-  //               setShowProductForm(true);
-  //             }}
-  //           ></i>
-  //         </div>
-  //       );
-  //     },
-  //   },
-  // ];
-
   async function getData() {
     try {
       dispatch(SetLoader(true));
@@ -90,7 +35,7 @@ function Products() {
       });
       dispatch(SetLoader(false));
       if (response.success) {
-        setProduct(response.products);
+        setProduct(response.data);
       }
     } catch (error) {
       message.error(error.message);
@@ -113,7 +58,6 @@ function Products() {
           Add Product
         </Button>
       </div>
-      {/* <Table className="mt-3" columns={columns} dataSource={products}></Table> */}
 
       <div className="flex flex-col mt-2 gap-2">
         {products &&

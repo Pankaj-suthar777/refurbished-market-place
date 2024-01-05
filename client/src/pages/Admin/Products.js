@@ -28,7 +28,7 @@ function Products() {
       const response = await UpdateProductStatus(id, status);
       dispatch(SetLoader(false));
       if (response.success) {
-        setProduct(response.products);
+        setProduct(response.data);
         getData();
       }
     } catch (error) {
