@@ -153,6 +153,13 @@ function ProductsForm({
                   );
                 })}
               </div>
+              <Form.Item
+                name="showBidsOnProductPage"
+                valuePropName="checked"
+                className="mr-2"
+              >
+                <Checkbox>Show Bids on Product Page</Checkbox>
+              </Form.Item>
             </Form>
           </Tabs.TabPane>
           <Tabs.TabPane key="2" tab="Images" disabled={!selectedProduct}>

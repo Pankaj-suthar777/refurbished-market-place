@@ -56,6 +56,10 @@ const productSchema = new mongoose.Schema(
       default: "pending",
       required: true,
     },
+    showBidsOnProductPage: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

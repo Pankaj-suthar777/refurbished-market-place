@@ -32,17 +32,17 @@ function Home() {
 
   return (
     <div>
-      <div className="grid gap-5 grid-cols-4">
+      <div className="grid gap-5  md:grid-cols-4 sm:grid-cols-3 grid-cols-2">
         {products?.map((product) => {
           return (
             <div
-              className="border border-gray-300 rounded border-solid flex flex-col gap-5 pb-2 cursor-pointer"
+              className="border border-gray-300 rounded border-solid flex flex-col gap-1 pb-2 cursor-pointer"
               onClick={() => naviagte(`/product/${product._id}`)}
             >
               <img
                 src={product.images[0]}
                 alt="img"
-                className="w-full h-40 object-cover"
+                className="w-full rounded-lg p-2 h-40 object-cover"
               ></img>
               <div className="px-2 flex flex-col gap-1">
                 <h1 className="text-lg font-semibold">{product.name}</h1>

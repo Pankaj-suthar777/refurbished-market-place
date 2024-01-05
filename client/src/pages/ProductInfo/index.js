@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../../redux/loadersSlice";
-import { message } from "antd";
-import { GetProductById } from "../../apicalls/product";
+import { Button, message } from "antd";
+import { GetAllBids, GetProductById } from "../../apicalls/product";
 import Divider from "../../components/Divider";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
+import BidModel from "./BidModel";
 
 function ProductInfo() {
+  const { user } = useSelector((state) => state.users);
+  const [showAddNewBid, setShowAddNewBid] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const naviagte = useNavigate();
   const dispatch = useDispatch();
@@ -20,7 +23,8 @@ function ProductInfo() {
       const response = await GetProductById(id);
       dispatch(SetLoader(false));
       if (response.success) {
-        setProduct(response.data);
+        const bidsResponse = await GetAllBids({ product: id });
+        setProduct({ ...response.data, bids: bidsResponse.data });
       }
     } catch (error) {
       dispatch(SetLoader(false));
@@ -32,7 +36,7 @@ function ProductInfo() {
   }, []);
   return (
     product && (
-      <div className="grid grid-cols-2 gap-5 mt-3">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-5 mt-3">
         {/*image*/}
         <div className="flex flex-col gap-5">
           <img
@@ -65,6 +69,9 @@ function ProductInfo() {
               {moment(product.createdAt).format("MMM D , YYYY hh:mm A")}
             </span>
           </div>
+        </div>
+        <div className="md:hidden">
+          <Divider></Divider>
         </div>
 
         {/*details*/}
@@ -117,7 +124,50 @@ function ProductInfo() {
               <span>{product.seller.email}</span>
             </div>
           </div>
+          <Divider></Divider>
+          <div className="flex flex-col">
+            <div className="flex justify-between">
+              <h1 className="text-2xl font-semibold text-orange-900">Bids</h1>
+              <Button
+                onClick={() => setShowAddNewBid(!showAddNewBid)}
+                disabled={user._id === product.seller._id}
+              >
+                New Bid
+              </Button>
+            </div>
+            <div className="flex flex-col gap-3 mt-5">
+              {product.showBidsOnProductPage &&
+                product.bids.map((bid) => {
+                  return (
+                    <div className="border border-gray-400 border-solid p-3 rounded-lg flex flex-col gap-3">
+                      <div className="flex justify-between">
+                        <span>Name</span>
+                        <span>{bid.buyer.name}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Bid amount</span>
+                        <span>&#8377; {bid.bidAmount}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Bid Place On</span>
+                        <span>
+                          {moment(bid.createdAt).format("MMM D , YYYY hh:mm A")}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
         </div>
+        {showAddNewBid && (
+          <BidModel
+            getData={getData}
+            showBidModal={showAddNewBid}
+            setShowBidModel={setShowAddNewBid}
+            product={product}
+          ></BidModel>
+        )}
       </div>
     )
   );

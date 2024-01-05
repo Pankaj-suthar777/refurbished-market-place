@@ -1,12 +1,14 @@
-import { Button, Table, message } from "antd";
+import { Button, message } from "antd";
 import React, { useEffect, useState } from "react";
 import ProductsForm from "./ProductsForm";
 import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../../../redux/loadersSlice";
 import { DeleteProduct, GetProducts } from "../../../apicalls/product";
 import moment from "moment";
+import Bids from "./Bids";
 
 function Products() {
+  const [showBidsModal, setShowBidsModal] = useState();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProduct] = useState();
   const [showProductForm, setShowProductForm] = useState(false);
@@ -85,7 +87,7 @@ function Products() {
                     {item.category}
                   </p>
                 </div>
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center mt-2">
                   <p>
                     <b>Stataus : </b>
                     {item.status}
@@ -108,6 +110,15 @@ function Products() {
                       setShowProductForm(true);
                     }}
                   ></i>
+                  <span
+                    className="underline cursor-pointer"
+                    onClick={() => {
+                      setShowBidsModal(true);
+                      setSelectedProduct(item);
+                    }}
+                  >
+                    Show Bids
+                  </span>
                 </div>
               </div>
             );
@@ -121,6 +132,14 @@ function Products() {
           selectedProduct={selectedProduct}
           getData={getData}
         ></ProductsForm>
+      )}
+
+      {showBidsModal && (
+        <Bids
+          setShowBidsModal={setShowBidsModal}
+          showBidsModal={showBidsModal}
+          selectedProduct={selectedProduct}
+        ></Bids>
       )}
     </div>
   );
