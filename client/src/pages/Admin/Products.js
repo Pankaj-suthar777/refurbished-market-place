@@ -15,7 +15,7 @@ function Products() {
       const response = await GetProducts(null);
       dispatch(SetLoader(false));
       if (response.success) {
-        setProduct(response.products);
+        setProduct(response.data);
       }
     } catch (error) {
       message.error(error.message);

@@ -4,7 +4,7 @@ import { axiosInstance } from "./axiosInstance";
 export const AddProduct = async (payload) => {
   try {
     const response = await axiosInstance.post(
-      "/api/users//add-new-product",
+      "/api/products//add-new-product",
       payload
     );
     return response.data;
@@ -17,7 +17,7 @@ export const AddProduct = async (payload) => {
 export const GetProducts = async (payload) => {
   try {
     const response = await axiosInstance.post(
-      "/api/users/get-products",
+      "/api/products/get-products",
       payload
     );
     return response.data;
@@ -30,7 +30,7 @@ export const GetProducts = async (payload) => {
 export const EditProduct = async (id, payload) => {
   try {
     const response = await axiosInstance.put(
-      `/api/users/edit-product/${id}`,
+      `/api/products/edit-product/${id}`,
       payload
     );
     return response.data;
@@ -38,12 +38,23 @@ export const EditProduct = async (id, payload) => {
     return error.message;
   }
 };
+// get a product by id
+export async function GetProductById(id) {
+  try {
+    const response = await axiosInstance.get(
+      `/api/products/get-product-by-id/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+}
 
 // delete a product
 export const DeleteProduct = async (id) => {
   try {
     const response = await axiosInstance.delete(
-      `/api/users/delete-product/${id}`
+      `/api/products/delete-product/${id}`
     );
     return response.data;
   } catch (error) {
@@ -55,7 +66,7 @@ export const DeleteProduct = async (id) => {
 export const UploadProductImage = async (payload) => {
   try {
     const response = await axiosInstance.post(
-      `/api/users/upload-image-to-product`,
+      `/api/products/upload-image-to-product`,
       payload
     );
     return response.data;
@@ -68,7 +79,7 @@ export const UploadProductImage = async (payload) => {
 export const UpdateProductStatus = async (id, status) => {
   try {
     const response = await axiosInstance.put(
-      `/api/users/update-product-status/${id}`,
+      `/api/products/update-product-status/${id}`,
       { status }
     );
     return response.data;
