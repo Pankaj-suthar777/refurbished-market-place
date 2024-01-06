@@ -39,12 +39,13 @@ function ProductInfo() {
       <div className="grid md:grid-cols-2 grid-cols-1 gap-5 mt-3">
         {/*image*/}
         <div className="flex flex-col gap-5">
-          <img
-            className="w-full h-96 object-cover rounded-md"
-            src={product.images[selectedImageIndex]}
-            alt=""
-          ></img>
-
+          <a href={product.images[selectedImageIndex]}>
+            <img
+              className="w-full h-96 object-cover rounded-md"
+              src={product.images[selectedImageIndex]}
+              alt=""
+            ></img>
+          </a>
           <div className="flex gap-5">
             {product.images.map((image, index) => {
               return (
@@ -108,6 +109,13 @@ function ProductInfo() {
             <div className="flex justify-between mt-2">
               <span>Warranty Available</span>
               <span>{product.warrantyAvailable ? "Yes" : "No"}</span>
+            </div>
+            <div className="flex justify-between mt-2">
+              <span>Purchasd Year</span>
+              <span>
+                {moment().subtract(product.age, "years").format("YYYY")} (
+                {product.age} years ago)
+              </span>
             </div>
           </div>
           <Divider></Divider>

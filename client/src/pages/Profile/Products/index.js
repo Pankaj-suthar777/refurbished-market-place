@@ -35,6 +35,7 @@ function Products() {
       const response = await GetProducts({
         seller: user._id,
       });
+
       dispatch(SetLoader(false));
       if (response.success) {
         setProduct(response.data);

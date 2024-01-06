@@ -24,7 +24,7 @@ router.post("/add-new-product", authMiddleware, async (req, res) => {
 //get all products
 router.post("/get-products", async (req, res) => {
   try {
-    const { seller, categories = [], age = [], status } = req.body;
+    const { seller, category = [], age = [], search, status } = req.body;
     let filters = {};
     if (seller) {
       filters.seller = seller;
@@ -32,6 +32,25 @@ router.post("/get-products", async (req, res) => {
     if (status) {
       filters.status = status;
     }
+
+    // filter by category
+    if (category.length > 0) {
+      filters.category = { $in: category };
+    }
+
+    // filters by age
+    if (age.length > 0) {
+      age.forEach((item) => {
+        const fromAge = item.split("-")[0];
+        const toAge = item.split("-")[1];
+        filters.age = { $gte: fromAge, $lte: toAge };
+      });
+    }
+    // // filter by search
+    // if (search !== "") {
+    //   filters.name = search;
+    // }
+
     const products = await Product.find(filters)
       .populate("seller")
       .sort({ createdAt: -1 });
@@ -50,6 +69,7 @@ router.post("/get-products", async (req, res) => {
 router.get("/get-product-by-id/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id).populate("seller");
+
     res.send({
       success: true,
       data: product,

@@ -20,6 +20,7 @@ export const GetProducts = async (payload) => {
       "/api/products/get-products",
       payload
     );
+    console.log(response);
     return response.data;
   } catch (error) {
     return error.messgae;
