@@ -13,10 +13,11 @@ router.post("/add-new-product", authMiddleware, async (req, res) => {
     await newProduct.save();
 
     //send notification to admin
+    const user = await User.find({ _id: req.body.userId });
     const admins = await User.find({ role: "admin" });
     const newNotification = new Notification({
       user: admins[0]._id,
-      message: `New product added by ${req.user.name}`,
+      message: `New product added by ${user.name}`,
       title: "New Product",
       onClick: "/adimn",
       read: false,
