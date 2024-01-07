@@ -47,7 +47,7 @@ function Products() {
           products.map((item) => {
             return (
               <div className="grid md:grid-cols-[200px_1fr_150px] border border-solid p-2 rounded-[10px]">
-                <div className="break-all break-words w-[450px]">
+                <div className="break-all break-words">
                   <b>Product : </b>
                   {item.name}
                   <p>
