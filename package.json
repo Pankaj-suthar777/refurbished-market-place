@@ -22,7 +22,7 @@
     "react-datepicker": "^4.25.0"
   },
   "devDependencies": {
-  "@babel/plugin-proposal-private-property-in-object": "^1.0.5"
+  "@babel/plugin-proposal-private-property-in-object": "^1.2.0"
 }
 
 }
