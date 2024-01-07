@@ -69,7 +69,7 @@ function Products() {
             return (
               <div>
                 <div className="flex flex-col md:flex-row border justify-between border-solid p-2 rounded-[10px]">
-                  <div className="break-all break-words w-[450px] justify-between">
+                  <div className="break-all break-words justify-between">
                     <b>Name : </b>
                     {item.name}
                     <p>
