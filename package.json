@@ -28,7 +28,14 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@babel/core": "7.22.5",
+    "@babel/eslint-parser": "7.22.5",
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "@babel/preset-env": "7.22.5",
+},
   "overrides": {
     "@svgr/webpack": "$@svgr/webpack"
   },
+  
 }
