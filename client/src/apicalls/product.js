@@ -20,7 +20,6 @@ export const GetProducts = async (payload) => {
       "/api/products/get-products",
       payload
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     return error.messgae;
@@ -114,3 +113,14 @@ export async function GetAllBids(filters) {
     return error.message;
   }
 }
+
+//get products by search
+export const GetProductsBySearch = async (payload) => {
+  try {
+    const response = await axiosInstance.post("/api/products/search", payload);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    return error.messgae;
+  }
+};

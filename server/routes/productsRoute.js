@@ -1,14 +1,28 @@
 const router = require("express").Router();
 const Product = require("../models/productModel");
+const User = require("../models/userModel");
 const authMiddleware = require("../middlewares/authMiddleware");
 const cloudinary = require("../config/cloudinaryConfig");
 const multer = require("multer");
+const Notification = require("../models/notificationsModel");
 
 //add a new product
 router.post("/add-new-product", authMiddleware, async (req, res) => {
   try {
     const newProduct = new Product(req.body);
     await newProduct.save();
+
+    //send notification to admin
+    const admins = await User.find({ role: "admin" });
+    const newNotification = new Notification({
+      user: admins._id,
+      message: `New product added by ${req.user.name}`,
+      title: "New Product",
+      onClick: "/adimn",
+      read: false,
+    });
+    await newNotification.save();
+
     res.send({
       success: true,
       message: "Product added successfully",
@@ -24,7 +38,7 @@ router.post("/add-new-product", authMiddleware, async (req, res) => {
 //get all products
 router.post("/get-products", async (req, res) => {
   try {
-    const { seller, category = [], age = [], search, status } = req.body;
+    const { seller, category = [], age = [], status } = req.body;
     let filters = {};
     if (seller) {
       filters.seller = seller;
@@ -46,10 +60,6 @@ router.post("/get-products", async (req, res) => {
         filters.age = { $gte: fromAge, $lte: toAge };
       });
     }
-    // // filter by search
-    // if (search !== "") {
-    //   filters.name = search;
-    // }
 
     const products = await Product.find(filters)
       .populate("seller")
@@ -154,10 +164,57 @@ router.post(
 router.put("/update-product-status/:id", authMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
-    await Product.findByIdAndUpdate(req.params.id, { status });
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
+      status,
+    });
+
+    // send notification to seller
+    const newNotification = new Notification({
+      user: updatedProduct.seller,
+      message: `Your product ${updatedProduct.name} has been ${status}`,
+      title: "Product Status Updated",
+      onClick: "/profile",
+      read: false,
+    });
+
+    await newNotification.save();
+
     res.send({
       success: true,
       message: "Product status updated successfully",
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+router.get("/get-product-by-id/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id).populate("seller");
+
+    res.send({
+      success: true,
+      data: product,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+//get product by search
+router.post("/search", authMiddleware, async (req, res) => {
+  try {
+    const { name } = req.body;
+    const product = await Product.find({ name });
+    res.send({
+      success: true,
+      data: product,
     });
   } catch (error) {
     res.send({

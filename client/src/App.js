@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import ProductInfo from "./pages/ProductInfo";
+import Search from "./pages/Home/Search";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
@@ -29,6 +30,14 @@ function App() {
             element={
               <ProtectedPage>
                 <ProductInfo></ProductInfo>
+              </ProtectedPage>
+            }
+          ></Route>
+          <Route
+            path="/search"
+            element={
+              <ProtectedPage>
+                <Search></Search>
               </ProtectedPage>
             }
           ></Route>

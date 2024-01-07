@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../redux/loadersSlice";
 import { SetUser } from "../redux/usersSlice";
 import Notifications from "./Notifications";
-import { GetAllNotification } from "../apicalls/Notifications";
+import {
+  GetAllNotification,
+  ReadAllNotification,
+} from "../apicalls/Notifications";
 
 const ProtectedPage = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
@@ -35,16 +38,28 @@ const ProtectedPage = ({ children }) => {
 
   async function getNotification() {
     try {
-      dispatch(SetLoader(true));
       const response = await GetAllNotification();
-      dispatch(SetLoader(false));
+
       if (response.success) {
         setNotifications(response.data);
       } else {
         throw new Error(response.message);
       }
     } catch (error) {
-      dispatch(SetLoader(false));
+      message.error(error.message);
+    }
+  }
+
+  async function readNotifications() {
+    try {
+      const response = await ReadAllNotification();
+
+      if (response.success) {
+        getNotification();
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
       message.error(error.message);
     }
   }
@@ -67,7 +82,7 @@ const ProtectedPage = ({ children }) => {
             className="text-2xl cursor-pointer text-white"
             onClick={() => navigate("/")}
           >
-            SHEY MP
+            RMP
           </h1>
           <div>
             <div className="bg-white py-2 px-5 rounded flex gap-2 items-center">
@@ -88,7 +103,10 @@ const ProtectedPage = ({ children }) => {
                   notifications?.filter((notification) => !notification.read)
                     .length
                 }
-                onClick={() => setShowNotifications(true)}
+                onClick={() => {
+                  readNotifications();
+                  setShowNotifications(true);
+                }}
                 className="cursor-pointer"
               >
                 <Avatar
@@ -113,7 +131,7 @@ const ProtectedPage = ({ children }) => {
           showNotifications={showNotifications}
           notifications={notifications}
           setShowNotifications={setShowNotifications}
-          reloadNotifications={setNotifications}
+          reloadNotifications={getNotification}
         ></Notifications>
       </div>
     )

@@ -2,17 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../../redux/loadersSlice";
 import { message } from "antd";
-import { GetProducts } from "../../apicalls/product";
+import { GetProducts, GetProductsBySearch } from "../../apicalls/product";
 import Divider from "../../components/Divider";
 import { useNavigate } from "react-router-dom";
 import Filters from "./Filters";
 
 function Home() {
+  const [products, setProducts] = useState([]);
+
+  const [showSearch, setShowSearch] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const naviagte = useNavigate();
   const dispatch = useDispatch();
-  const [products, setProducts] = useState([]);
+
   const [filters, setFilters] = useState({
     status: "approved",
     category: [],
@@ -34,6 +38,7 @@ function Home() {
       message.error(error.message);
     }
   }
+
   useEffect(() => {
     getData();
   }, [filters]);
@@ -58,18 +63,32 @@ function Home() {
             type="text"
             placeholder="Search Products here..."
             className="border border-gray-300 rounded border-solid w-full h-14 p-2"
+            value={searchQuery}
             onChange={(e) => {
-              // setFilters({ ...filters, search: e.target.value });
               setSearchQuery(e.target.value);
             }}
           ></input>
-          <i
-            class="ri-search-line cursor-pointer"
-            onClick={() => {
-              setFilters({ ...filters, search: searchQuery });
-            }}
-          ></i>
+          {showSearch === false ? (
+            <i
+              className="ri-search-line cursor-pointer"
+              onClick={() => {
+                // GetProductBySearch({ name: searchQuery });
+                // setShowSearch(true);
+                naviagte(`/search?q=${searchQuery}`);
+              }}
+            ></i>
+          ) : (
+            <i
+              class="ri-close-line cursor-pointer"
+              onClick={() => {
+                // setShowSearch(false);
+                setSearchQuery("");
+              }}
+            ></i>
+          )}
         </div>
+        {/* {showSearch && <Search products={searchData}></Search>}
+        {showSearch === false && ( */}
         <div
           className="xl:grid-cols-6  lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3 grid 
           "
@@ -97,6 +116,7 @@ function Home() {
             );
           })}
         </div>
+        {/* )} */}
       </div>
     </div>
   );

@@ -50,7 +50,8 @@ function Products() {
 
   return (
     <div>
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+        <h1 className="text-lg">Your Products</h1>
         <Button
           type="default"
           onClick={() => {
@@ -66,60 +67,62 @@ function Products() {
         {products &&
           products.map((item) => {
             return (
-              <div className="flex flex-col md:flex-row justify-between border border-solid p-2 rounded-[10px]">
-                <div className="break-all break-words w-[450px]">
-                  <b>Name : </b>
-                  {item.name}
-                  <p>
-                    <b>Description : </b>
-                    {item.description}
-                  </p>
-                  <p>
-                    <b>Age : </b>
-                    {item.age}
-                  </p>
-                  <p>
-                    <b>Price : </b>
-                    {item.price}rs
-                  </p>
+              <div>
+                <div className="flex flex-col md:flex-row border justify-between border-solid p-2 rounded-[10px]">
+                  <div className="break-all break-words w-[450px] justify-between">
+                    <b>Name : </b>
+                    {item.name}
+                    <p>
+                      <b>Description : </b>
+                      {item.description}
+                    </p>
+                    <p>
+                      <b>Age : </b>
+                      {item.age}
+                    </p>
+                    <p>
+                      <b>Price : </b>
+                      {item.price}rs
+                    </p>
 
-                  <p>
-                    <b>Category : </b>
-                    {item.category}
-                  </p>
-                </div>
-                <div className="flex flex-col items-center justify-center mt-2">
-                  <p>
-                    <b>Stataus : </b>
-                    {item.status}
-                  </p>
-                  <p>
-                    <b>Created At : </b>
-                    {moment(item.createdAt).format("DD-MM-YY hh:mm A")}
-                  </p>
-                </div>
+                    <p>
+                      <b>Category : </b>
+                      {item.category}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center justify-center mt-2">
+                    <p>
+                      <b>Stataus : </b>
+                      {item.status}
+                    </p>
+                    <p>
+                      <b>Created At : </b>
+                      {moment(item.createdAt).format("DD-MM-YY hh:mm A")}
+                    </p>
+                  </div>
 
-                <div className="flex gap-5 items-center ">
-                  <i
-                    className="ri-delete-bin-line text-2xl cursor-pointer"
-                    onClick={() => deleteProduct(item._id)}
-                  ></i>
-                  <i
-                    class="ri-pencil-line text-2xl cursor-pointer"
-                    onClick={() => {
-                      setSelectedProduct(item);
-                      setShowProductForm(true);
-                    }}
-                  ></i>
-                  <span
-                    className="underline cursor-pointer"
-                    onClick={() => {
-                      setShowBidsModal(true);
-                      setSelectedProduct(item);
-                    }}
-                  >
-                    Show Bids
-                  </span>
+                  <div className="flex gap-5 items-center ">
+                    <i
+                      className="ri-delete-bin-line text-2xl cursor-pointer"
+                      onClick={() => deleteProduct(item._id)}
+                    ></i>
+                    <i
+                      class="ri-pencil-line text-2xl cursor-pointer"
+                      onClick={() => {
+                        setSelectedProduct(item);
+                        setShowProductForm(true);
+                      }}
+                    ></i>
+                    <span
+                      className="underline cursor-pointer"
+                      onClick={() => {
+                        setShowBidsModal(true);
+                        setSelectedProduct(item);
+                      }}
+                    >
+                      Show Bids
+                    </span>
+                  </div>
                 </div>
               </div>
             );

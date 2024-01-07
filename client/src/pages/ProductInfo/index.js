@@ -145,7 +145,7 @@ function ProductInfo() {
             </div>
             <div className="flex flex-col gap-3 mt-5">
               {product.showBidsOnProductPage &&
-                product.bids.map((bid) => {
+                product?.bids?.map((bid) => {
                   return (
                     <div className="border border-gray-400 border-solid p-3 rounded-lg flex flex-col gap-3">
                       <div className="flex justify-between">

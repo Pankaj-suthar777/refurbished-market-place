@@ -30,7 +30,7 @@ export const GetAllNotification = async (data) => {
 export const DeleteNotification = async (id) => {
   try {
     const response = await axiosInstance.delete(
-      `/api/notifications/delete-notifications/${id}`
+      `/api/notifications/delete-a-notification/${id}`
     );
     return response.data;
   } catch (error) {
@@ -41,7 +41,9 @@ export const DeleteNotification = async (id) => {
 // read all notification by user
 export const ReadAllNotification = async () => {
   try {
-    const response = await axiosInstance.put("/api/notifications/notify");
+    const response = await axiosInstance.put(
+      "/api/notifications/read-all-notifications"
+    );
     return response.data;
   } catch (error) {
     return error.response.data;
