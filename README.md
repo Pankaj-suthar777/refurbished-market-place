@@ -6,7 +6,7 @@ Key Features:
 
 2. Product Listing: Sellers can effortlessly add their refurbished products to the platform. Users have the flexibility to provide detailed product information and upload multiple images, conveniently stored in the cloud using Cloudinary.
 
-3. **Admin Functionality: The admin dashboard offers powerful tools to maintain the integrity of the platform. Admins can review and approve or reject products added by users, ensuring a curated selection of high-quality refurbished items. Additionally, admins have the authority to block users engaging in inappropriate activities, fostering a secure and trustworthy community.
+3. Admin Functionality: The admin dashboard offers powerful tools to maintain the integrity of the platform. Admins can review and approve or reject products added by users, ensuring a curated selection of high-quality refurbished items. Additionally, admins have the authority to block users engaging in inappropriate activities, fostering a secure and trustworthy community.
 
 4. Bidding System: Elevate the user experience with a dynamic bidding functionality. Interested buyers can place bids on products, promoting a competitive and engaging marketplace.
 
